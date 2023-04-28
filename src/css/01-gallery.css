@@ -3,6 +3,10 @@
   --animation-duration: 250ms;
 }
 
+body {
+  background-color: floralwhite;
+}
+
 .gallery {
   display: grid;
   max-width: 1140px;
@@ -10,6 +14,8 @@
   grid-auto-rows: 240px;
   grid-gap: 12px;
   justify-content: center;
+  padding: 0;
+  list-style: none;
   margin-left: auto;
   margin-right: auto;
 }
@@ -39,4 +45,106 @@
 
 .gallery__link:hover {
   cursor: zoom-in;
+}
+
+.modal {
+  position: fixed;
+  z-index: 1000;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  background-color: rgba(0, 0, 0, 0.6);
+  display: none;
+}
+
+.modal.active {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.modalbox {
+  padding: 25px;
+  text-align: center;
+  background-color: brown;
+  border: 2px solid black;
+  border-radius: 5px;
+  font-size: 30px;
+  box-shadow: 8px 8px 5px 0px rgba(0, 0, 0, 0.75);
+}
+
+.modal_btn {
+  width: 100px;
+  padding: 8px;
+  color: #ffffff;
+  font-size: 15px;
+  background-color: #4D5AE5;
+  border: 1px solid rgb(0, 0, 0);
+  border-radius: 5px;
+  box-shadow: 3px 3px 5px 0px rgba(0, 0, 0, 0.75);
+  transition: transform 500ms ease-in-out;
+}
+
+.modal_btn:hover {
+  background-color: #2f39a8;
+  transform: scale(1.05);
+}
+
+.modal_btn.modalok_btn {
+  margin-right: 15px;
+}
+
+.sl-image {
+  padding: 2px;
+  background-color: black;
+  border-radius: 5px;
+  box-shadow: 5px 5px 5px 0px rgba(0, 0, 0, 0.75);
+}
+
+.sl-caption {
+  border: 2px solid black;
+  border-radius: 5px;
+}
+
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.message-box {
+  position: absolute;
+  width: 643px;
+  height: 363px;
+  z-index: 1000;
+  background-color: rgba(102, 134, 157, 0.5);
+  border: 2px solid black;
+  border-radius: 5px;
+  box-shadow: 8px 8px 5px 0px rgba(0, 0, 0, 0.75);
+  display: none;
+}
+
+.message-box.active {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  animation: fadeInAnimation ease 4s;
+  animation-iteration-count: 1;
+  animation-fill-mode: forwards;
+}
+
+.message-text {
+  transform: translate(0, 50px);
+  font-size: 36px;
+  color: #ffffff;
+}
+
+@keyframes fadeInAnimation {
+  0% {
+    opacity: 1;
+  }
+
+  100% {
+    opacity: 0;
+  }
 }
