@@ -1,0 +1,46 @@
+body {
+    background-color: floralwhite;
+}
+
+.container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.message-box {
+    position: absolute;
+    width: 643px;
+    height: 363px;
+    z-index: 1000;
+    background-color: rgba(102, 134, 157, 0.5);
+    border: 2px solid black;
+    border-radius: 5px;
+    box-shadow: 8px 8px 5px 0px rgba(0, 0, 0, 0.75);
+    display: none;
+}
+
+.message-box.active {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    animation: fadeInAnimation ease 4s;
+    animation-iteration-count: 1;
+    animation-fill-mode: forwards;
+}
+
+.message-text {
+    transform: translate(0, 50px);
+    font-size: 36px;
+    color: #ffffff;
+}
+
+@keyframes fadeInAnimation {
+    0% {
+        opacity: 1;
+    }
+
+    100% {
+        opacity: 0;
+    }
+}

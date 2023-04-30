@@ -1,67 +1,53 @@
 import Player from '@vimeo/player';
 import throttle from 'lodash.throttle';
+import { save, load, createMessage } from './functions.js';
 
 const refs = {
   iframe: document.querySelector('iframe'),
   container: document.querySelector('.container'),
 };
 
-const player = new Player(refs.iframe);
+const variables = {
+  player: null,
+  dataToStorage: '',
+  dataFromStorage: localStorage.getItem('videoplayer-current-time'),
+  createdMessage: '',
+  minutes: 0,
+  sec: 0,
+};
 
-player.on(
+variables.player = new Player(refs.iframe);
+variables.player.on(
   'timeupdate',
   throttle(data => {
-    try {
-      const dataToStorage = JSON.stringify(data.seconds);
-      localStorage.setItem('videoplayer-current-time', dataToStorage);
-    } catch (error) {
-      console.error(`${error.name} ${error.message}`);
-    }
+    save('videoplayer-current-time', data.seconds);
   }, 1000)
 );
-
-/**
- * Creates markup for message
- * @param {string} text
- * @returns {string} String with markup
- */
-const createMessage = text => {
-  return `
-  <div class="message-box">
-  <p class="message-text">${text}</p>
-</div>
-`;
-};
 
 /**
  * Sets the playback time for the player from the previous browser session, shows a window with this time
  */
 const onPageLoad = () => {
-  try {
-    const dataFromStorage = localStorage.getItem('videoplayer-current-time'),
-      parsedData = JSON.parse(dataFromStorage);
-    player
-      .setCurrentTime(parsedData)
-      .then(seconds => {
-        const minutes = Math.floor(seconds / 60),
-          sec = Math.floor(seconds - minutes * 60),
-          createdMessage = createMessage(
-            `Video was stopped at ${minutes}.${sec}`
-          );
-        refs.container.insertAdjacentHTML('afterbegin', createdMessage);
+  load('videoplayer-current-time');
+  const parsedData = JSON.parse(variables.dataFromStorage);
+  variables.player
+    .setCurrentTime(parsedData)
+    .then(seconds => {
+      (variables.minutes = Math.floor(seconds / 60)),
+        (variables.sec = Math.floor(seconds - variables.minutes * 60));
+      const createdMessage = createMessage(
+        `Video was stopped at ${variables.minutes}.${variables.sec}`
+      );
 
-        const messageBoxRef = document.querySelector('.message-box ');
+      refs.container.insertAdjacentHTML('afterbegin', createdMessage);
+      const messageBoxRef = document.querySelector('.message-box ');
+      messageBoxRef.classList.toggle('active');
+      setTimeout(() => {
         messageBoxRef.classList.toggle('active');
-        setTimeout(() => {
-          messageBoxRef.classList.toggle('active');
-        }, 4000);
-      })
-      .catch(error => {
-        console.error(`${error.name} ${error.message}`);
-      });
-  } catch (error) {
-    console.error(`${error.name} ${error.message}`);
-  }
+      }, 4000);
+    })
+    .catch(error => {
+      console.error(`${error.name} ${error.message}`);
+    });
 };
-
 window.addEventListener('load', onPageLoad);
