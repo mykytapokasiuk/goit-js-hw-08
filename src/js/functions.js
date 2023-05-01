@@ -15,7 +15,6 @@ const save = (key, value) => {
 /**
  * Loads data from local storage, checks if data exists
  * @param {string} key
- * @returns
  */
 const load = key => {
   try {
