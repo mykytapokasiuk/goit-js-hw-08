@@ -1,0 +1,2 @@
+body{background-color:#fffaf0}.container{justify-content:center;align-items:center;display:flex}.message-box{width:643px;height:363px;z-index:1000;background-color:#66869d80;border:2px solid #000;border-radius:5px;display:none;position:absolute;box-shadow:8px 8px 5px #000000bf}.message-box.active{justify-content:center;align-items:center;animation:4s forwards fadeInAnimation;display:flex}.message-text{color:#fff;font-size:36px;transform:translateY(50px)}@keyframes fadeInAnimation{0%{opacity:1}to{opacity:0}}
+/*# sourceMappingURL=02-video.c513fd90.css.map */
