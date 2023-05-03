@@ -1,5 +1,7 @@
 import { save, load } from './functions.js';
 import throttle from 'lodash.throttle';
+import { Loading } from 'notiflix/build/notiflix-loading-aio';
+import { Notify } from 'notiflix/build/notiflix-notify-aio';
 
 const variables = {
   formelement: document.querySelector('.feedback-form'),
@@ -32,8 +34,18 @@ function updateFormInputs() {
       (variables.formelement.elements.message.value = '');
     return;
   }
-  variables.formelement.elements.email.value = dataFromLocalStorage.email;
-  variables.formelement.elements.message.value = dataFromLocalStorage.message;
+  setTimeout(() => {
+    variables.formelement.elements.email.value = dataFromLocalStorage.email;
+    variables.formelement.elements.message.value = dataFromLocalStorage.message;
+  }, 2000);
+  Loading.dots('Loading data from local storage...', {
+    backgroundColor: 'rgba(255, 250, 240, 0.7)',
+    messageFontSize: '22px',
+    messageColor: '#000000',
+    svgSize: '60',
+    svgColor: '#000000',
+  });
+  Loading.remove(2000);
 }
 
 /**
@@ -46,13 +58,32 @@ const onSubmit = event => {
     variables.formelement.elements.email.value === '' ||
     variables.formelement.elements.message.value === ''
   ) {
-    alert('Please, fill in all the form fields');
+    Notify.failure('Please, fill in all the form fields', {
+      width: '350px',
+      showOnlyTheLastOne: true,
+      position: 'right-bottom',
+      distance: '50px',
+      timeout: 2000,
+      fontSize: '20px',
+      borderRadius: '8px',
+      cssAnimationStyle: 'from-bottom',
+    });
     return;
   }
   const dataFromLocalStorage = load(variables.localstorage_key);
   console.log(dataFromLocalStorage);
   localStorage.removeItem(variables.localstorage_key);
   variables.formelement.reset();
+  Notify.success('Thanks for the feedback!', {
+    width: '350px',
+    showOnlyTheLastOne: true,
+    position: 'right-top',
+    distance: '50px',
+    timeout: 2000,
+    fontSize: '20px',
+    borderRadius: '8px',
+    cssAnimationStyle: 'from-top',
+  });
 };
 
 variables.formelement.addEventListener('input', throttle(getFormData, 500));
